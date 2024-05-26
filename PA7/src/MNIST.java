@@ -1,6 +1,6 @@
 /*
- * Name: TODO
- * PID:  TODO
+ * Name: Anirudh Annabathula
+ * PID:  A17909461
  */
 
 import java.io.*;
@@ -10,8 +10,8 @@ import java.util.zip.GZIPInputStream;
 /**
  * Implementation of KNN using MyPriorityQueue on the MNIST dataset
  *
- * @author TODO
- * @since TODO
+ * @author Anirudh Annabathula
+ * @since 05/20/2024
  */
 
 public class MNIST {
@@ -22,6 +22,9 @@ public class MNIST {
 
     public static final int K = 3;
     public static final int IMG_DIM = 28;
+    public static final double SQUARE_RT = 0.5;
+    public static final double SQUARE = 2;
+    public static final int NUM_LABELS = 10;
 
     private static final float[][] TRAIN_IMAGES = new float[NUM_TRAIN][IMG_DIM * IMG_DIM];
     private static final short[] TRAIN_LABELS = new short[NUM_TRAIN];
@@ -58,7 +61,11 @@ public class MNIST {
          */
         @Override
         public int compareTo(DataHolder d) {
-            // TODO
+            if (priority < d.priority) {
+                return -1;
+            } else if (priority > d.priority) {
+                return 1;
+            }
             return 0;
         }
     }
@@ -70,8 +77,14 @@ public class MNIST {
      * @return the Euclidean distance between img1 and img2
      */
     public static float totalDist(float[] img1, float[] img2) throws IllegalArgumentException {
-        // TODO
-        return 0f;
+        if (img2.length != img1.length) {
+            throw new IllegalArgumentException();
+        }
+        float totalSum = 0f;
+        for (int i = 0; i < img1.length; i++) {
+            totalSum +=  (float) Math.pow(img1[i] - img2[i], SQUARE);
+        }
+        return (float) Math.pow(totalSum, SQUARE_RT);
     }
 
     /**
@@ -81,8 +94,15 @@ public class MNIST {
      * @return an array of DataHolders containing the k closest neighbors to image
      */
     public static DataHolder[] getClosestMatches(float[] image, int k) {
-        // TODO
-        return null;
+        MyPriorityQueue<DataHolder> pQueue = new MyPriorityQueue<>(k);
+        DataHolder[] output = new DataHolder[k];
+        for (int i = 0; i < TRAIN_IMAGES.length; i++) {
+            pQueue.offer(new DataHolder(TRAIN_LABELS[i], totalDist(image, TRAIN_IMAGES[i]), TRAIN_IMAGES[i]));
+        }
+        for (int i = 0; i < k; i++) {
+            output[i] = pQueue.poll();
+        }
+        return output;
     }
 
     /**
@@ -92,8 +112,19 @@ public class MNIST {
      * @param closestMatches the array of DataHolders containing the k closest matches
      */
     public static int predict(DataHolder[] closestMatches) {
-        // TODO
-        return 0;
+        int[] count = new int[NUM_LABELS];
+        int label = 0;
+        int countMax = 0;
+        for (DataHolder image : closestMatches) {
+            count[image.label]++;
+            if (count[image.label] > countMax) {
+                countMax = count[image.label];
+                label = image.label;
+            } else if (count[image.label] == countMax) {
+                label = Math.min(image.label, label);
+            }
+        }
+        return label;
     }
 
     // you can ignore the rest of this file :)
@@ -135,7 +166,7 @@ public class MNIST {
 
         byte[] dataBuffer = new byte[1];
 
-        for (int i = 0; i < lblArr.length; i++){
+        for (int i = 0; i < lblArr.length; i++) {
             lblIn.read(dataBuffer, 0, 1);
             lblArr[i] = (short) (dataBuffer[0] & 0xFF);
 

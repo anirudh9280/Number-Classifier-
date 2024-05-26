@@ -3,7 +3,6 @@
  * PID:  A17909461
  */
 
-import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 /**
@@ -16,7 +15,6 @@ import java.util.NoSuchElementException;
  */
 
 public class dHeap<T extends Comparable<? super T>> implements HeapInterface<T> {
-
     private T[] heap;   // backing array
     private int d;      // branching factor
     private int nelems; // number of elements
@@ -85,9 +83,9 @@ public class dHeap<T extends Comparable<? super T>> implements HeapInterface<T> 
             throw new NoSuchElementException();
         }
         T root = heap[0];
-        swap(0, nelems-1);
-        heap[nelems-1] = null;
-        nelems -=1;
+        swap(0, nelems - 1);
+        heap[nelems - 1] = null;
+        nelems -= 1;
         trickleDown(0);
         return root;
     }
@@ -101,7 +99,6 @@ public class dHeap<T extends Comparable<? super T>> implements HeapInterface<T> 
         T temp = heap[ind1];
         heap[ind1] = heap[ind2];
         heap[ind2] = temp;
-
     }
 
     /**
@@ -118,8 +115,8 @@ public class dHeap<T extends Comparable<? super T>> implements HeapInterface<T> 
             resize(); // resize array
         }
         nelems += 1;
-        heap[size() -1] = item;
-        bubbleUp(size()-1);
+        heap[size() - 1] = item;
+        bubbleUp(size() - 1);
     }
 
     /**
@@ -150,7 +147,7 @@ public class dHeap<T extends Comparable<? super T>> implements HeapInterface<T> 
      * @return the parent index
      */
     private int parent(int index) {
-        return (int) (Math.ceil((double) index / d) -1);
+        return (int) (Math.ceil((double) index / d) - 1);
     }
 
     /**
@@ -158,15 +155,36 @@ public class dHeap<T extends Comparable<? super T>> implements HeapInterface<T> 
      * @param index of the node
      */
     private void bubbleUp(int index) {
+        while (index > 0 && compareValue(this.heap[index], this.heap[parent(index)])) {
+            int parentIndex = parent(index);
+            swap(index, parentIndex);
+            index = parentIndex;
+        }
     }
 
     /**
      * private method to trickle down added values
-     * @param index
+     * @param index the current index that is being trickled down
      */
     private void trickleDown(int index) {
-        // TODO
+        int indexBacking = index;
+        while (true) {
+            for (int i = d * index + 1; i <= d * index + d; i++) {
+                if (i > size() || heap[i] == null) {
+                    swap(indexBacking, index);
+                    return;
+                }
+                if (compareValue(heap[i], heap[indexBacking])) {
+                    indexBacking = i;
+                }
+            } if (indexBacking == index) {
+                return;
+            }
+            swap(indexBacking, index);
+            index = indexBacking;
+        }
     }
+
     /**
      * helper method to compare two nodes
      * if it is a max heap, we want to see if elem1 > elem2
@@ -182,7 +200,6 @@ public class dHeap<T extends Comparable<? super T>> implements HeapInterface<T> 
         return elem1.compareTo(elem2) < 0;
     }
 
-
     /**
      * Helper method that doubles the capacity of the heap
      */
@@ -194,4 +211,5 @@ public class dHeap<T extends Comparable<? super T>> implements HeapInterface<T> 
         }
         heap = nheap;
     }
+
 }
