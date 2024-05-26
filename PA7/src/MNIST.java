@@ -55,6 +55,7 @@ public class MNIST {
         }
 
         /**
+         * compares the elements on in the data holder
          * @param d the other DataHolder that is being compared
          * @return an integer that determines whether priority is lower,
          * greater, or equal to that of d

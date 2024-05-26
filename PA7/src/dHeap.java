@@ -191,6 +191,8 @@ public class dHeap<T extends Comparable<? super T>> implements HeapInterface<T> 
      * if it is a min heap, we want to see if elem1 < elem2
      * @param elem1 the first element
      * @param elem2 the seocnd element
+     * @return a boolean if the element is greater than the first one
+     *
      */
     private boolean compareValue(T elem1, T elem2) {
         if (elem1 == null || elem2 == null) {
