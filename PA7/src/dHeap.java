@@ -189,6 +189,8 @@ public class dHeap<T extends Comparable<? super T>> implements HeapInterface<T> 
      * helper method to compare two nodes
      * if it is a max heap, we want to see if elem1 > elem2
      * if it is a min heap, we want to see if elem1 < elem2
+     * @param elem1 the first element
+     * @param elem2 the seocnd element
      */
     private boolean compareValue(T elem1, T elem2) {
         if (elem1 == null || elem2 == null) {

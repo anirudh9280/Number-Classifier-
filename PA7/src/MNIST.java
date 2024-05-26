@@ -57,7 +57,7 @@ public class MNIST {
         /**
          * @param d the other DataHolder that is being compared
          * @return an integer that determines whether priority is lower,
-         *         greater, or equal to that of d
+         * greater, or equal to that of d
          */
         @Override
         public int compareTo(DataHolder d) {
@@ -74,6 +74,7 @@ public class MNIST {
      * Calculate Euclidean distance between two vectors (1-D arrays)
      * @param img1 the first array
      * @param img2 the second array
+     * @throws IllegalArgumentException when the argument isn't the same as img1 and img2
      * @return the Euclidean distance between img1 and img2
      */
     public static float totalDist(float[] img1, float[] img2) throws IllegalArgumentException {
@@ -108,8 +109,8 @@ public class MNIST {
     /**
      * Makes a prediction using the K-NN Classifier
      * You may assume k < n (amount of training data)
-     *
      * @param closestMatches the array of DataHolders containing the k closest matches
+     * @return a majority vote between 0-9
      */
     public static int predict(DataHolder[] closestMatches) {
         int[] count = new int[NUM_LABELS];
