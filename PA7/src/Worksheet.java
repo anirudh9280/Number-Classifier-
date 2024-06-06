@@ -32,7 +32,7 @@ public class Worksheet {
      */
     public static int[][] dResult(){
         int[][] output = new int[2][11];
-        output[0] = new int[]{79, 43, 65, 75, 27, 33, 38, 36, 60, 11, 4};
+        output[0] = new int[]{79, 43, 65, 25, 27, 33, 38, 36, 60, 11, 4};
         output[1] = new int[]{79, 65, 36, 25, 27, 33, 38, 43, 60, 11, 4};
         return output;
     }
@@ -47,7 +47,7 @@ public class Worksheet {
         output[1] = new int[]{100, 50, 35, 52, 45, 17, 27, 10, 15, 15, 39, 0};
         output[2] = new int[]{52, 50, 35, 39, 45, 17, 27, 10, 15, 15, 0, 0};
         output[3] = new int[]{88, 50, 35, 72, 45, 17, 27, 10, 15, 15, 39, 52};
-        output[4] = new int[]{45, 27, 35, 39, 15, 17, 15, 10, 0, 0, 0, 0, 0};
+        output[4] = new int[]{45, 27, 35, 39, 15, 17, 15, 10, 0, 0, 0, 0};
         return output;
     }
 }
